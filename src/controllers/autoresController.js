@@ -51,8 +51,8 @@ class AutoresController {
       const novoAutor = new Autor({ ...autorAtual, ...body });
       const resposta = await novoAutor.salvar(novoAutor);
       return res.status(200).json({ message: 'autor atualizado', content: resposta });
-    } catch (err) {
-      return res.status(500).json(err.message);
+    } catch (error) {
+      return res.status(500).json(error.message);
     }
   };
 
@@ -64,8 +64,20 @@ class AutoresController {
         return res.status(404).json({ message: `Autor com id ${params.id} não encontrado` });
       }
       return res.status(200).json({ message: 'autor excluído' });
-    } catch (err) {
-      return res.status(500).json(err.message);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  };
+
+  static listarLivroPorAutor = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const listarLivros = await Autor.pegaLivrosPorAutor(id);
+      const autor = await Autor.pegarPeloId(id);
+
+      return res.status(200).json({ autor, livros: listarLivros });
+    } catch (error) {
+      return res.status(500).json(error.message);
     }
   };
 }
