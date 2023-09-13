@@ -70,8 +70,8 @@ class AutoresController {
   };
 
   static listarLivroPorAutor = async (req, res) => {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const listarLivros = await Autor.pegaLivrosPorAutor(id);
       const autor = await Autor.pegarPeloId(id);
 
